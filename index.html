@@ -4,9 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinanceManageID</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* === ISKRAMBOL COLOR SCHEME === */
+        :root {
+            --pink: #FFB6C1;
+            --blue: #87CEEB;
+            --yellow: #FFFACD;
+            --green: #98FB98;
+            --purple: #DDA0DD;
+            --dark: #333333;
+            --light: #FFFFFF;
+        }
+
+        /* === PIXEL-STYLE FONT & BASE STYLES === */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+        
+        body {
+            font-family: 'DotGothic16', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* === PIXEL-STYLED HEADER === */
+        .pixel-header {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: var(--blue);
+            text-shadow: 3px 3px 0 var(--pink);
+            margin-bottom: 30px;
+            font-size: 24px;
+            padding: 20px;
+            border: 4px dashed var(--yellow);
+            background-color: var(--light);
+        }
+
+        /* === PIXEL-STYLED CARDS === */
+        .pixel-card {
+            background: var(--light);
+            border: 3px solid var(--dark);
+            border-radius: 0;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 5px 5px 0 var(--purple);
+            position: relative;
+        }
+
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: -5px;
+            bottom: -5px;
+            background: var(--yellow);
+            z-index: -1;
+            border: 2px solid var(--dark);
+        }
+
+        /* === SALDO SECTION === */
+        .saldo-container {
+            text-align: center;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            padding: 25px;
+            border: 4px solid var(--dark);
+            margin-bottom: 25px;
+        }
+
+        .saldo-amount {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 32px;
+            color: var(--light);
+            text-shadow: 2px 2px 0 var(--dark);
+            margin: 10px 0;
+        }
+
+        /* === PIXEL-STYLED FORM ELEMENTS === */
+        .pixel-input, .pixel-select, .pixel-button {
+            font-family: 'DotGothic16', sans-serif;
+            border: 2px solid var(--dark);
+            padding: 10px;
+            margin: 5px;
+            background: var(--light);
+            font-size: 16px;
+        }
+
+        .pixel-button {
+            background: var(--pink);
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .pixel-button:hover {
+            transform: translate(2px, 2px);
+            background: var(--purple);
+        }
+
+        /* === PROGRESS BAR PIXEL STYLE === */
+        .pixel-progress {
+            height: 30px;
+            background: var(--light);
+            border: 2px solid var(--dark);
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .pixel-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            transition: width 0.3s;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* === TRANSACTION HISTORY === */
+        .transaction-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid;
+            background: var(--light);
+        }
+
+        .pemasukan { border-left-color: var(--green); }
+        .pengeluaran { border-left-color: var(--pink); }
+
+        /* === GRID LAYOUTS === */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* === PIXEL DECORATIONS === */
+        .pixel-corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--dark);
+        }
+
+        .corner-tl { top: -2px; left: -2px; }
+        .corner-tr { top: -2px; right: -2px; }
+        .corner-bl { bottom: -2px; left: -2px; }
+        .corner-br { bottom: -2px; right: -2px; }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 600px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .pixel-header {
+                font-size: 18px;
+            }
+            
+            .saldo-amount {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- HEADER -->
     <header class="pixel-header">
         FinanceManageID
         <div class="pixel-corner corner-tl"></div>
@@ -15,18 +189,20 @@
         <div class="pixel-corner corner-br"></div>
     </header>
 
+    <!-- SALDO SECTION -->
     <section class="saldo-container">
         <h2>Saldo Saat Ini</h2>
         <div class="saldo-amount">Rp 2.500.000</div>
-        <small>Terakhir update: <span id="current-date">27 Oktober 2023</span></small>
+        <small>Terakhir update: 27 Oktober 2023</small>
     </section>
 
+    <!-- BUDGET SETTING SECTION -->
     <section class="pixel-card">
         <h2>Atur Target Keuangan</h2>
         <div class="grid-3">
             <div>
                 <label>Periode:</label>
-                <select class="pixel-select" id="period-select">
+                <select class="pixel-select">
                     <option>Harian</option>
                     <option>Mingguan</option>
                     <option selected>Bulanan</option>
@@ -35,40 +211,42 @@
             </div>
             <div>
                 <label>Jenis Target:</label>
-                <select class="pixel-select" id="target-type">
+                <select class="pixel-select">
                     <option>Total Limit Pengeluaran</option>
                     <option>Total Minimal Nabung</option>
                 </select>
             </div>
             <div>
                 <label>Jumlah Target:</label>
-                <input type="number" class="pixel-input" id="target-amount" placeholder="Rp 1.000.000" value="1000000">
+                <input type="number" class="pixel-input" placeholder="Rp 1.000.000" value="1000000">
             </div>
         </div>
-        <button class="pixel-button" id="save-target">Simpan Target</button>
+        <button class="pixel-button">Simpan Target</button>
     </section>
 
+    <!-- PROGRESS TRACKING -->
     <section class="pixel-card">
-        <h2>Progress <span id="current-period">Bulan Ini</span></h2>
+        <h2>Progress Bulan Ini</h2>
         <div class="progress-labels">
-            <span>Target: Rp <span id="target-display">1.000.000</span></span>
-            <span>Terpakai: Rp <span id="used-display">650.000</span></span>
-            <span>Sisa: Rp <span id="left-display">350.000</span></span>
+            <span>Target: Rp 1.000.000</span>
+            <span>Terpakai: Rp 650.000</span>
+            <span>Sisa: Rp 350.000</span>
         </div>
         <div class="pixel-progress">
-            <div class="pixel-progress-bar" id="progress-bar" style="width: 65%;"></div>
+            <div class="pixel-progress-bar" style="width: 65%;"></div>
         </div>
         <div class="progress-labels">
-            <span>Reset: <span id="reset-timer">5 hari lagi</span></span>
-            <span><strong><span id="progress-percent">65%</span> terpakai</strong></span>
+            <span>Reset: 5 hari lagi</span>
+            <span><strong>65% terpakai</strong></span>
         </div>
     </section>
 
+    <!-- ADD TRANSACTION -->
     <section class="pixel-card">
         <h2>Tambah Transaksi</h2>
         <div class="grid-2">
-            <input type="text" class="pixel-input" id="transaction-desc" placeholder="Keterangan (misal: Beli makanan)">
-            <input type="number" class="pixel-input" id="transaction-amount" placeholder="Jumlah (Rp)">
+            <input type="text" class="pixel-input" placeholder="Keterangan (misal: Beli makanan)">
+            <input type="number" class="pixel-input" placeholder="Jumlah (Rp)">
         </div>
         <div style="margin: 15px 0;">
             <label>
@@ -78,23 +256,66 @@
                 <input type="radio" name="type" value="pengeluaran"> Pengeluaran
             </label>
         </div>
-        <button class="pixel-button" id="add-transaction">Tambah Transaksi</button>
+        <button class="pixel-button">Tambah Transaksi</button>
     </section>
 
+    <!-- TRANSACTION HISTORY -->
     <section class="pixel-card">
         <h2>Riwayat Transaksi</h2>
-        <div id="transaction-history">
-            <div class="transaction-item pemasukan">
-                <strong>Gaji Bulanan</strong> - Rp 3.000.000
-                <br><small>25 Okt 2023</small>
-            </div>
-            <div class="transaction-item pengeluaran">
-                <strong>Belanja Bulanan</strong> - Rp 450.000
-                <br><small>26 Okt 2023</small>
-            </div>
+        <div class="transaction-item pemasukan">
+            <strong>Gaji Bulanan</strong> - Rp 3.000.000
+            <br><small>25 Okt 2023</small>
+        </div>
+        <div class="transaction-item pengeluaran">
+            <strong>Belanja Bulanan</strong> - Rp 450.000
+            <br><small>26 Okt 2023</small>
+        </div>
+        <div class="transaction-item pengeluaran">
+            <strong>Makan di Luar</strong> - Rp 120.000
+            <br><small>27 Okt 2023</small>
+        </div>
+        <div class="transaction-item pemasukan">
+            <strong>Freelance</strong> - Rp 500.000
+            <br><small>20 Okt 2023</small>
         </div>
     </section>
 
-    <script src="script.js"></script>
+    <!-- SPENDING CHART SECTION -->
+    <section class="pixel-card">
+        <h2>Grafik Pengeluaran (Bulanan)</h2>
+        <div style="text-align: center; padding: 20px; background: var(--yellow); border: 2px solid var(--dark);">
+            <p>[Grafik akan muncul di sini]</p>
+            <p><small>Pilih periode: 
+                <select class="pixel-select">
+                    <option>Harian</option>
+                    <option>Mingguan</option>
+                    <option selected>Bulanan</option>
+                    <option>Tahunan</option>
+                </select>
+            </small></p>
+        </div>
+    </section>
+
+    <script>
+        // Simple JavaScript for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add button click effects
+            const buttons = document.querySelectorAll('.pixel-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'translate(4px, 4px)';
+                    setTimeout(() => {
+                        this.style.transform = 'translate(0, 0)';
+                    }, 100);
+                });
+            });
+
+            // Update saldo based on transactions (simple example)
+            function updateSaldo() {
+                // This would connect to a real calculation in a full app
+                console.log('Saldo updated!');
+            }
+        });
+    </script>
 </body>
 </html>
