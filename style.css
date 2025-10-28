@@ -1,0 +1,528 @@
+/* Iskrambol Days Color Palette */
+:root {
+    --pink: #FFB6C1;
+    --blue: #87CEEB;
+    --yellow: #FFFACD;
+    --green: #98FB98;
+    --mint: #AFEEEE;
+    --purple: #DDA0DD;
+    --text: #2C3E50;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Base Styles with Game Feel */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--blue) 50%, var(--purple) 100%);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Floating Background Shapes */
+.floating-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 100px;
+    height: 100px;
+    background: var(--pink);
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 150px;
+    height: 150px;
+    background: var(--blue);
+    top: 60%;
+    right: 10%;
+    animation-delay: -2s;
+}
+
+.shape-3 {
+    width: 80px;
+    height: 80px;
+    background: var(--yellow);
+    bottom: 20%;
+    left: 20%;
+    animation-delay: -4s;
+}
+
+.shape-4 {
+    width: 120px;
+    height: 120px;
+    background: var(--green);
+    top: 30%;
+    right: 20%;
+    animation-delay: -1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Main Game Container */
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Game Header with 2.5D Effect */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 
+        0 10px 30px var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    border: 3px solid var(--blue);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--pink), var(--blue), var(--green));
+}
+
+.title-card {
+    flex: 1;
+}
+
+.game-title {
+    font-size: 2.8em;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.game-subtitle {
+    font-size: 1.1em;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.character-avatar {
+    margin-left: 20px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--pink), var(--yellow));
+    border-radius: 50%;
+    border: 4px solid var(--blue);
+    box-shadow: 0 5px 15px var(--shadow);
+    position: relative;
+}
+
+.avatar::before {
+    content: '😊';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+}
+
+/* HUD Cards - Game Interface Style */
+.hud-card, .menu-card, .quest-card, .dialog-card, .log-card, .map-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: 
+        0 8px 25px var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    border: 2px solid;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.hud-card {
+    border-color: var(--blue);
+}
+
+.menu-card {
+    border-color: var(--green);
+}
+
+.quest-card {
+    border-color: var(--yellow);
+}
+
+.dialog-card {
+    border-color: var(--pink);
+}
+
+.log-card {
+    border-color: var(--purple);
+}
+
+.map-card {
+    border-color: var(--mint);
+}
+
+/* Saldo HUD */
+.saldo-hud {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(255, 182, 193, 0.1));
+}
+
+.hud-icon {
+    font-size: 3em;
+    margin-right: 20px;
+    filter: drop-shadow(2px 2px 4px var(--shadow));
+}
+
+.hud-content h3 {
+    font-size: 1em;
+    color: var(--text);
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.hud-value {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--blue);
+    text-shadow: 1px 1px 2px var(--shadow);
+}
+
+/* Game Options Styling */
+.menu-title, .dialog-title, .log-title, .map-title {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    color: var(--text);
+    text-align: center;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+}
+
+.option-label {
+    width: 150px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.game-select, .game-input {
+    flex: 1;
+}
+
+.game-select select, .game-input input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--blue);
+    border-radius: 12px;
+    background: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.game-select select:focus, .game-input input:focus {
+    outline: none;
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.3);
+}
+
+/* Game Buttons */
+.game-button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.game-button:hover::before {
+    left: 100%;
+}
+
+.game-button.primary {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: white;
+}
+
+.game-button.success {
+    background: linear-gradient(135deg, var(--green), var(--mint));
+    color: var(--text);
+}
+
+.game-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+/* Quest Progress */
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quest-timer {
+    background: var(--yellow);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.game-progress-bar {
+    width: 100%;
+    height: 25px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 5px var(--shadow);
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    border-radius: 15px;
+    position: relative;
+    transition: width 0.5s ease;
+}
+
+.progress-sparkle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, white, transparent);
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.6; }
+}
+
+/* Transaction Log */
+.transaction-log {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border-left: 5px solid;
+}
+
+.log-entry:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.log-entry.income {
+    background: linear-gradient(135deg, rgba(152, 251, 152, 0.2), rgba(175, 238, 238, 0.2));
+    border-left-color: var(--green);
+}
+
+.log-entry.expense {
+    background: linear-gradient(135deg, rgba(255, 182, 193, 0.2), rgba(255, 250, 205, 0.2));
+    border-left-color: var(--pink);
+}
+
+.log-icon {
+    font-size: 1.5em;
+    margin-right: 15px;
+    filter: drop-shadow(1px 1px 2px var(--shadow));
+}
+
+.log-details {
+    flex: 1;
+}
+
+.log-desc {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.log-date {
+    font-size: 0.8em;
+    opacity: 0.6;
+}
+
+.log-amount {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.log-amount.positive {
+    color: var(--green);
+}
+
+.log-amount.negative {
+    color: #FF6B6B;
+}
+
+/* Chart Section */
+.chart-container {
+    padding: 20px;
+}
+
+.game-chart {
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    height: 200px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 250, 205, 0.3), rgba(175, 238, 238, 0.3));
+    border-radius: 15px;
+}
+
+.chart-bar {
+    width: 50px;
+    background: linear-gradient(to top, var(--blue), var(--purple));
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    transition: height 0.5s ease;
+    box-shadow: 0 -2px 10px var(--shadow);
+}
+
+.chart-bar span {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+    color: var(--text);
+}
+
+/* Type Buttons */
+.type-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.type-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--blue);
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.type-btn.active {
+    background: var(--blue);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .character-avatar {
+        margin: 15px 0 0 0;
+    }
+    
+    .game-title {
+        font-size: 2.2em;
+    }
+    
+    .option-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .option-label {
+        width: auto;
+        margin-bottom: 5px;
+    }
+}
