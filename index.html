@@ -104,6 +104,24 @@
             background: var(--purple);
         }
 
+        /* RESET BUTTON STYLES */
+        .reset-button {
+            background: var(--yellow);
+            font-size: 14px;
+        }
+
+        .reset-all-button {
+            background: #FF9999;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
         /* === PROGRESS BAR PIXEL STYLE === */
         .pixel-progress {
             height: 30px;
@@ -132,10 +150,21 @@
             margin: 5px 0;
             border-left: 4px solid;
             background: var(--light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .pemasukan { border-left-color: var(--green); }
         .pengeluaran { border-left-color: var(--pink); }
+
+        .delete-btn {
+            background: #FF9999;
+            border: 1px solid var(--dark);
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
 
         /* === GRID LAYOUTS === */
         .grid-2 {
@@ -176,6 +205,10 @@
             .saldo-amount {
                 font-size: 24px;
             }
+            
+            .button-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -192,8 +225,8 @@
     <!-- SALDO SECTION -->
     <section class="saldo-container">
         <h2>Saldo Saat Ini</h2>
-        <div class="saldo-amount">Rp 2.500.000</div>
-        <small>Terakhir update: 27 Oktober 2023</small>
+        <div class="saldo-amount" id="currentSaldo">Rp 2.500.000</div>
+        <small>Terakhir update: <span id="lastUpdate">27 Oktober 2023</span></small>
     </section>
 
     <!-- BUDGET SETTING SECTION -->
@@ -202,7 +235,7 @@
         <div class="grid-3">
             <div>
                 <label>Periode:</label>
-                <select class="pixel-select">
+                <select class="pixel-select" id="periodSelect">
                     <option>Harian</option>
                     <option>Mingguan</option>
                     <option selected>Bulanan</option>
@@ -211,33 +244,36 @@
             </div>
             <div>
                 <label>Jenis Target:</label>
-                <select class="pixel-select">
+                <select class="pixel-select" id="targetType">
                     <option>Total Limit Pengeluaran</option>
                     <option>Total Minimal Nabung</option>
                 </select>
             </div>
             <div>
                 <label>Jumlah Target:</label>
-                <input type="number" class="pixel-input" placeholder="Rp 1.000.000" value="1000000">
+                <input type="number" class="pixel-input" id="targetAmount" placeholder="Rp 1.000.000" value="1000000">
             </div>
         </div>
-        <button class="pixel-button">Simpan Target</button>
+        <div class="button-group">
+            <button class="pixel-button" onclick="saveTarget()">Simpan Target</button>
+            <button class="pixel-button reset-button" onclick="resetTarget()">Reset Target</button>
+        </div>
     </section>
 
     <!-- PROGRESS TRACKING -->
     <section class="pixel-card">
-        <h2>Progress Bulan Ini</h2>
+        <h2>Progress <span id="currentPeriod">Bulan Ini</span></h2>
         <div class="progress-labels">
-            <span>Target: Rp 1.000.000</span>
-            <span>Terpakai: Rp 650.000</span>
-            <span>Sisa: Rp 350.000</span>
+            <span>Target: <span id="displayTarget">Rp 1.000.000</span></span>
+            <span>Terpakai: <span id="displayUsed">Rp 650.000</span></span>
+            <span>Sisa: <span id="displayLeft">Rp 350.000</span></span>
         </div>
         <div class="pixel-progress">
-            <div class="pixel-progress-bar" style="width: 65%;"></div>
+            <div class="pixel-progress-bar" id="progressBar" style="width: 65%;"></div>
         </div>
         <div class="progress-labels">
-            <span>Reset: 5 hari lagi</span>
-            <span><strong>65% terpakai</strong></span>
+            <span>Reset: <span id="resetTimer">5 hari lagi</span></span>
+            <span><strong><span id="progressPercent">65%</span> terpakai</strong></span>
         </div>
     </section>
 
@@ -245,8 +281,8 @@
     <section class="pixel-card">
         <h2>Tambah Transaksi</h2>
         <div class="grid-2">
-            <input type="text" class="pixel-input" placeholder="Keterangan (misal: Beli makanan)">
-            <input type="number" class="pixel-input" placeholder="Jumlah (Rp)">
+            <input type="text" class="pixel-input" id="transactionDesc" placeholder="Keterangan (misal: Beli makanan)">
+            <input type="number" class="pixel-input" id="transactionAmount" placeholder="Jumlah (Rp)">
         </div>
         <div style="margin: 15px 0;">
             <label>
@@ -256,37 +292,54 @@
                 <input type="radio" name="type" value="pengeluaran"> Pengeluaran
             </label>
         </div>
-        <button class="pixel-button">Tambah Transaksi</button>
+        <button class="pixel-button" onclick="addTransaction()">Tambah Transaksi</button>
     </section>
 
     <!-- TRANSACTION HISTORY -->
     <section class="pixel-card">
-        <h2>Riwayat Transaksi</h2>
-        <div class="transaction-item pemasukan">
-            <strong>Gaji Bulanan</strong> - Rp 3.000.000
-            <br><small>25 Okt 2023</small>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Riwayat Transaksi</h2>
+            <button class="pixel-button reset-all-button" onclick="resetAll()">Reset Semua</button>
         </div>
-        <div class="transaction-item pengeluaran">
-            <strong>Belanja Bulanan</strong> - Rp 450.000
-            <br><small>26 Okt 2023</small>
-        </div>
-        <div class="transaction-item pengeluaran">
-            <strong>Makan di Luar</strong> - Rp 120.000
-            <br><small>27 Okt 2023</small>
-        </div>
-        <div class="transaction-item pemasukan">
-            <strong>Freelance</strong> - Rp 500.000
-            <br><small>20 Okt 2023</small>
+        <div id="transactionHistory">
+            <div class="transaction-item pemasukan">
+                <div>
+                    <strong>Gaji Bulanan</strong> - Rp 3.000.000
+                    <br><small>25 Okt 2023</small>
+                </div>
+                <button class="delete-btn" onclick="deleteTransaction(this)">×</button>
+            </div>
+            <div class="transaction-item pengeluaran">
+                <div>
+                    <strong>Belanja Bulanan</strong> - Rp 450.000
+                    <br><small>26 Okt 2023</small>
+                </div>
+                <button class="delete-btn" onclick="deleteTransaction(this)">×</button>
+            </div>
+            <div class="transaction-item pengeluaran">
+                <div>
+                    <strong>Makan di Luar</strong> - Rp 120.000
+                    <br><small>27 Okt 2023</small>
+                </div>
+                <button class="delete-btn" onclick="deleteTransaction(this)">×</button>
+            </div>
+            <div class="transaction-item pemasukan">
+                <div>
+                    <strong>Freelance</strong> - Rp 500.000
+                    <br><small>20 Okt 2023</small>
+                </div>
+                <button class="delete-btn" onclick="deleteTransaction(this)">×</button>
+            </div>
         </div>
     </section>
 
     <!-- SPENDING CHART SECTION -->
     <section class="pixel-card">
-        <h2>Grafik Pengeluaran (Bulanan)</h2>
+        <h2>Grafik Pengeluaran (<span id="chartPeriod">Bulanan</span>)</h2>
         <div style="text-align: center; padding: 20px; background: var(--yellow); border: 2px solid var(--dark);">
             <p>[Grafik akan muncul di sini]</p>
             <p><small>Pilih periode: 
-                <select class="pixel-select">
+                <select class="pixel-select" id="chartPeriodSelect">
                     <option>Harian</option>
                     <option>Mingguan</option>
                     <option selected>Bulanan</option>
@@ -297,8 +350,150 @@
     </section>
 
     <script>
-        // Simple JavaScript for interactivity
+        // Simple data storage
+        let currentData = {
+            saldo: 2500000,
+            target: 1000000,
+            used: 650000,
+            period: 'Bulanan',
+            targetType: 'Total Limit Pengeluaran',
+            transactions: [
+                { desc: 'Gaji Bulanan', amount: 3000000, type: 'pemasukan', date: '25 Okt 2023' },
+                { desc: 'Belanja Bulanan', amount: 450000, type: 'pengeluaran', date: '26 Okt 2023' },
+                { desc: 'Makan di Luar', amount: 120000, type: 'pengeluaran', date: '27 Okt 2023' },
+                { desc: 'Freelance', amount: 500000, type: 'pemasukan', date: '20 Okt 2023' }
+            ]
+        };
+
+        // Initialize the display
+        function updateDisplay() {
+            document.getElementById('currentSaldo').textContent = formatCurrency(currentData.saldo);
+            document.getElementById('displayTarget').textContent = formatCurrency(currentData.target);
+            document.getElementById('displayUsed').textContent = formatCurrency(currentData.used);
+            document.getElementById('displayLeft').textContent = formatCurrency(currentData.target - currentData.used);
+            
+            const progressPercent = (currentData.used / currentData.target) * 100;
+            document.getElementById('progressBar').style.width = Math.min(progressPercent, 100) + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progressPercent) + '%';
+            
+            document.getElementById('currentPeriod').textContent = currentData.period.toLowerCase();
+            document.getElementById('chartPeriod').textContent = currentData.period.toLowerCase();
+        }
+
+        // Format currency in Indonesian style
+        function formatCurrency(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+
+        // Save target function
+        function saveTarget() {
+            const targetAmount = parseInt(document.getElementById('targetAmount').value);
+            const period = document.getElementById('periodSelect').value;
+            const targetType = document.getElementById('targetType').value;
+            
+            currentData.target = targetAmount;
+            currentData.period = period;
+            currentData.targetType = targetType;
+            currentData.used = 0; // Reset used amount when setting new target
+            
+            updateDisplay();
+            alert('Target berhasil disimpan!');
+        }
+
+        // RESET TARGET FUNCTION
+        function resetTarget() {
+            if (confirm('Yakin ingin mereset target? Progress akan hilang.')) {
+                currentData.target = 0;
+                currentData.used = 0;
+                document.getElementById('targetAmount').value = '';
+                updateDisplay();
+                alert('Target telah direset!');
+            }
+        }
+
+        // RESET ALL FUNCTION
+        function resetAll() {
+            if (confirm('Yakin ingin mereset SEMUA data? Semua transaksi dan target akan dihapus.')) {
+                currentData = {
+                    saldo: 0,
+                    target: 0,
+                    used: 0,
+                    period: 'Bulanan',
+                    targetType: 'Total Limit Pengeluaran',
+                    transactions: []
+                };
+                
+                document.getElementById('targetAmount').value = '';
+                document.getElementById('transactionHistory').innerHTML = '';
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('id-ID', { 
+                    day: 'numeric', month: 'long', year: 'numeric' 
+                });
+                
+                updateDisplay();
+                alert('Semua data telah direset!');
+            }
+        }
+
+        // Add transaction function
+        function addTransaction() {
+            const desc = document.getElementById('transactionDesc').value;
+            const amount = parseInt(document.getElementById('transactionAmount').value);
+            const type = document.querySelector('input[name="type"]:checked').value;
+            
+            if (!desc || !amount) {
+                alert('Harap isi semua field!');
+                return;
+            }
+            
+            const newTransaction = {
+                desc: desc,
+                amount: amount,
+                type: type,
+                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+            };
+            
+            currentData.transactions.unshift(newTransaction);
+            
+            // Update saldo and used amount
+            if (type === 'pemasukan') {
+                currentData.saldo += amount;
+            } else {
+                currentData.saldo -= amount;
+                currentData.used += amount;
+            }
+            
+            // Add to transaction history
+            const transactionHTML = `
+                <div class="transaction-item ${type}">
+                    <div>
+                        <strong>${desc}</strong> - ${formatCurrency(amount)}
+                        <br><small>${newTransaction.date}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTransaction(this)">×</button>
+                </div>
+            `;
+            
+            document.getElementById('transactionHistory').innerHTML = transactionHTML + document.getElementById('transactionHistory').innerHTML;
+            
+            // Clear input fields
+            document.getElementById('transactionDesc').value = '';
+            document.getElementById('transactionAmount').value = '';
+            
+            updateDisplay();
+        }
+
+        // Delete individual transaction
+        function deleteTransaction(button) {
+            const transactionElement = button.parentElement;
+            if (confirm('Hapus transaksi ini?')) {
+                transactionElement.remove();
+            }
+        }
+
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            updateDisplay();
+            
             // Add button click effects
             const buttons = document.querySelectorAll('.pixel-button');
             buttons.forEach(button => {
@@ -309,12 +504,6 @@
                     }, 100);
                 });
             });
-
-            // Update saldo based on transactions (simple example)
-            function updateSaldo() {
-                // This would connect to a real calculation in a full app
-                console.log('Saldo updated!');
-            }
         });
     </script>
 </body>
