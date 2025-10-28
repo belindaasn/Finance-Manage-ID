@@ -5,195 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinanceManageID</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Animated Background Elements -->
-    <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-    </div>
+    <header class="pixel-header">
+        FinanceManageID
+        <div class="pixel-corner corner-tl"></div>
+        <div class="pixel-corner corner-tr"></div>
+        <div class="pixel-corner corner-bl"></div>
+        <div class="pixel-corner corner-br"></div>
+    </header>
 
-    <!-- Main Container with Game-like UI -->
-    <div class="game-container">
-        <!-- Header with Game Title Style -->
-        <header class="game-header">
-            <div class="title-card">
-                <h1 class="game-title">FinanceManageID</h1>
-                <p class="game-subtitle">Kelola Keuangan Seperti Main Game!</p>
-            </div>
-            <div class="character-avatar">
-                <div class="avatar"></div>
-            </div>
-        </header>
+    <section class="saldo-container">
+        <h2>Saldo Saat Ini</h2>
+        <div class="saldo-amount">Rp 2.500.000</div>
+        <small>Terakhir update: <span id="current-date">27 Oktober 2023</span></small>
+    </section>
 
-        <!-- Saldo Section with Game HUD Style -->
-        <section class="hud-section">
-            <div class="hud-card saldo-hud">
-                <div class="hud-icon">💰</div>
-                <div class="hud-content">
-                    <h3>Saldo Saat Ini</h3>
-                    <div class="hud-value">Rp 1.500.000</div>
-                </div>
+    <section class="pixel-card">
+        <h2>Atur Target Keuangan</h2>
+        <div class="grid-3">
+            <div>
+                <label>Periode:</label>
+                <select class="pixel-select" id="period-select">
+                    <option>Harian</option>
+                    <option>Mingguan</option>
+                    <option selected>Bulanan</option>
+                    <option>Tahunan</option>
+                </select>
             </div>
-        </section>
+            <div>
+                <label>Jenis Target:</label>
+                <select class="pixel-select" id="target-type">
+                    <option>Total Limit Pengeluaran</option>
+                    <option>Total Minimal Nabung</option>
+                </select>
+            </div>
+            <div>
+                <label>Jumlah Target:</label>
+                <input type="number" class="pixel-input" id="target-amount" placeholder="Rp 1.000.000" value="1000000">
+            </div>
+        </div>
+        <button class="pixel-button" id="save-target">Simpan Target</button>
+    </section>
 
-        <!-- Budget Setting - Game Menu Style -->
-        <section class="menu-section">
-            <div class="menu-card">
-                <h2 class="menu-title">🎯 Atur Target</h2>
-                
-                <div class="game-options">
-                    <div class="option-row">
-                        <label class="option-label">Periode Waktu:</label>
-                        <div class="game-select">
-                            <select id="periode">
-                                <option value="harian">📅 Harian</option>
-                                <option value="mingguan">📆 Mingguan</option>
-                                <option value="bulanan">🗓️ Bulanan</option>
-                                <option value="tahunan">🎉 Tahunan</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="option-row">
-                        <label class="option-label">Jenis Target:</label>
-                        <div class="game-select">
-                            <select id="tipeTarget">
-                                <option value="pengeluaran">💸 Limit Pengeluaran</option>
-                                <option value="tabungan">🏦 Minimal Nabung</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="option-row">
-                        <label class="option-label">Jumlah Target:</label>
-                        <div class="game-input">
-                            <input type="number" id="jumlahTarget" placeholder="Rp ...">
-                        </div>
-                    </div>
-                    
-                    <button class="game-button primary">🎮 Set Target</button>
-                </div>
-            </div>
-        </section>
+    <section class="pixel-card">
+        <h2>Progress <span id="current-period">Bulan Ini</span></h2>
+        <div class="progress-labels">
+            <span>Target: Rp <span id="target-display">1.000.000</span></span>
+            <span>Terpakai: Rp <span id="used-display">650.000</span></span>
+            <span>Sisa: Rp <span id="left-display">350.000</span></span>
+        </div>
+        <div class="pixel-progress">
+            <div class="pixel-progress-bar" id="progress-bar" style="width: 65%;"></div>
+        </div>
+        <div class="progress-labels">
+            <span>Reset: <span id="reset-timer">5 hari lagi</span></span>
+            <span><strong><span id="progress-percent">65%</span> terpakai</strong></span>
+        </div>
+    </section>
 
-        <!-- Progress Bar - Game Quest Style -->
-        <section class="quest-section">
-            <div class="quest-card">
-                <div class="quest-header">
-                    <h3>🎯 Quest Bulanan</h3>
-                    <span class="quest-timer">⏰ Reset: 5 hari</span>
-                </div>
-                
-                <div class="quest-progress">
-                    <div class="progress-labels">
-                        <span>Target: Rp 2.000.000</span>
-                        <span>Terpakai: Rp 500.000</span>
-                        <span>Sisa: Rp 1.500.000</span>
-                    </div>
-                    <div class="game-progress-bar">
-                        <div class="progress-fill" style="width: 25%">
-                            <div class="progress-sparkle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="pixel-card">
+        <h2>Tambah Transaksi</h2>
+        <div class="grid-2">
+            <input type="text" class="pixel-input" id="transaction-desc" placeholder="Keterangan (misal: Beli makanan)">
+            <input type="number" class="pixel-input" id="transaction-amount" placeholder="Jumlah (Rp)">
+        </div>
+        <div style="margin: 15px 0;">
+            <label>
+                <input type="radio" name="type" value="pemasukan" checked> Pemasukan
+            </label>
+            <label style="margin-left: 20px;">
+                <input type="radio" name="type" value="pengeluaran"> Pengeluaran
+            </label>
+        </div>
+        <button class="pixel-button" id="add-transaction">Tambah Transaksi</button>
+    </section>
 
-        <!-- Transaction Input - Game Dialog Style -->
-        <section class="dialog-section">
-            <div class="dialog-card">
-                <h2 class="dialog-title">➕ Tambah Transaksi</h2>
-                
-                <div class="dialog-options">
-                    <div class="input-field">
-                        <label>📝 Keterangan</label>
-                        <input type="text" id="keterangan" placeholder="Beli apa hari ini?">
-                    </div>
-                    
-                    <div class="input-field">
-                        <label>💰 Jumlah</label>
-                        <input type="number" id="jumlah" placeholder="Rp ...">
-                    </div>
-                    
-                    <div class="input-field">
-                        <label>📊 Tipe</label>
-                        <div class="type-buttons">
-                            <button class="type-btn active" data-type="pengeluaran">💸 Pengeluaran</button>
-                            <button class="type-btn" data-type="pemasukan">💎 Pemasukan</button>
-                        </div>
-                    </div>
-                    
-                    <button class="game-button success">✨ Tambah Transaksi</button>
-                </div>
+    <section class="pixel-card">
+        <h2>Riwayat Transaksi</h2>
+        <div id="transaction-history">
+            <div class="transaction-item pemasukan">
+                <strong>Gaji Bulanan</strong> - Rp 3.000.000
+                <br><small>25 Okt 2023</small>
             </div>
-        </section>
-
-        <!-- Transaction History - Game Log Style -->
-        <section class="log-section">
-            <div class="log-card">
-                <h2 class="log-title">📜 Riwayat Transaksi</h2>
-                
-                <div class="transaction-log">
-                    <div class="log-entry income">
-                        <div class="log-icon">💎</div>
-                        <div class="log-details">
-                            <span class="log-desc">Gaji Bulanan</span>
-                            <span class="log-date">Hari ini</span>
-                        </div>
-                        <div class="log-amount positive">+ Rp 3.000.000</div>
-                    </div>
-                    
-                    <div class="log-entry expense">
-                        <div class="log-icon">🛒</div>
-                        <div class="log-details">
-                            <span class="log-desc">Belanja Bulanan</span>
-                            <span class="log-date">Kemarin</span>
-                        </div>
-                        <div class="log-amount negative">- Rp 750.000</div>
-                    </div>
-                    
-                    <div class="log-entry expense">
-                        <div class="log-icon">🚗</div>
-                        <div class="log-details">
-                            <span class="log-desc">Transportasi</span>
-                            <span class="log-date">2 hari lalu</span>
-                        </div>
-                        <div class="log-amount negative">- Rp 250.000</div>
-                    </div>
-                </div>
+            <div class="transaction-item pengeluaran">
+                <strong>Belanja Bulanan</strong> - Rp 450.000
+                <br><small>26 Okt 2023</small>
             </div>
-        </section>
-
-        <!-- Chart Section - Game Map Style -->
-        <section class="map-section">
-            <div class="map-card">
-                <h2 class="map-title">🗺️ Peta Keuangan</h2>
-                <div class="chart-container">
-                    <div class="game-chart">
-                        <div class="chart-bar" style="height: 80%">
-                            <span>Sen</span>
-                        </div>
-                        <div class="chart-bar" style="height: 60%">
-                            <span>Sel</span>
-                        </div>
-                        <div class="chart-bar" style="height: 40%">
-                            <span>Rab</span>
-                        </div>
-                        <div class="chart-bar" style="height: 70%">
-                            <span>Kam</span>
-                        </div>
-                        <div class="chart-bar" style="height: 50%">
-                            <span>Jum</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>
