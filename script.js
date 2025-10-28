@@ -1,35 +1,63 @@
-// Basic JavaScript for your budget tracker
+// FinanceManageID - JavaScript functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Update current date
+    const now = new Date();
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
+
+    // Button click effects
+    const buttons = document.querySelectorAll('.pixel-button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'translate(4px, 4px)';
+            setTimeout(() => {
+                this.style.transform = 'translate(0, 0)';
+            }, 100);
+        });
+    });
+
+    // Save target functionality
+    document.getElementById('save-target').addEventListener('click', function() {
+        const period = document.getElementById('period-select').value;
+        const targetType = document.getElementById('target-type').value;
+        const amount = document.getElementById('target-amount').value;
+        
+        document.getElementById('current-period').textContent = period.toLowerCase();
+        document.getElementById('target-display').textContent = formatCurrency(amount);
+        
+        alert(`Target disimpan!\nPeriode: ${period}\nJenis: ${targetType}\nJumlah: Rp ${formatCurrency(amount)}`);
+    });
+
     // Add transaction functionality
-    const addButton = document.querySelector('.add-button');
-    
-    addButton.addEventListener('click', function() {
-        const keterangan = document.getElementById('keterangan').value;
-        const jumlah = document.getElementById('jumlah').value;
-        const tipe = document.getElementById('tipe').value;
+    document.getElementById('add-transaction').addEventListener('click', function() {
+        const desc = document.getElementById('transaction-desc').value;
+        const amount = document.getElementById('transaction-amount').value;
+        const type = document.querySelector('input[name="type"]:checked').value;
         
-        if (keterangan && jumlah) {
-            alert(`Transaksi ditambahkan!\n${keterangan}: Rp ${jumlah} (${tipe})`);
-            // Here you would normally add to the transaction list
-            document.getElementById('keterangan').value = '';
-            document.getElementById('jumlah').value = '';
-        } else {
-            alert('Harap isi semua field!');
+        if (!desc || !amount) {
+            alert('Harap isi keterangan dan jumlah!');
+            return;
         }
-    });
-    
-    // Set budget functionality
-    const setButton = document.querySelector('.set-button');
-    
-    setButton.addEventListener('click', function() {
-        const periode = document.getElementById('periode').value;
-        const tipeTarget = document.getElementById('tipeTarget').value;
-        const jumlahTarget = document.getElementById('jumlahTarget').value;
+
+        const transactionHistory = document.getElementById('transaction-history');
+        const newTransaction = document.createElement('div');
+        newTransaction.className = `transaction-item ${type}`;
+        newTransaction.innerHTML = `
+            <strong>${desc}</strong> - Rp ${formatCurrency(amount)}
+            <br><small>${new Date().toLocaleDateString('id-ID')}</small>
+        `;
         
-        if (jumlahTarget) {
-            alert(`Target diatur!\nPeriode: ${periode}\nTipe: ${tipeTarget}\nJumlah: Rp ${jumlahTarget}`);
-        } else {
-            alert('Harap masukkan jumlah target!');
-        }
+        transactionHistory.prepend(newTransaction);
+        
+        // Clear form
+        document.getElementById('transaction-desc').value = '';
+        document.getElementById('transaction-amount').value = '';
+        
+        alert(`Transaksi ${type} berhasil ditambahkan!`);
     });
+
+    // Currency formatter
+    function formatCurrency(amount) {
+        return parseInt(amount).toLocaleString('id-ID');
+    }
 });
